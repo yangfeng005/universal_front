@@ -1,0 +1,74 @@
+.el-dialog__header {
+    background-color: #414141;
+
+    .el-dialog__title, 
+    .el-dialog__close {
+        font-size: 18px;
+        color: #fff;
+    }
+}
+
+.el-dialog.is-fullscreen {
+    .el-dialog__header,
+    .el-dialog__footer,
+    .el-dialog__body {
+        padding: 0px;
+        border: none;
+    }
+
+    .el-dialog__body {
+        height: 100%;
+    }
+
+    .el-dialog__headerbtn {
+        font-size: 28px;
+        top: 6px;
+        right: 12px;
+    }
+}
+
+.el-drawer__header span, 
+.el-drawer__close-btn
+{
+  outline: none;
+}
+
+.el-drawer__close-btn {
+    &:hover .el-icon-close {
+        color: #409EFF;
+    }
+}
+
+.el-table {
+    .cell {
+        display: -webkit-box;
+        -webkit-line-clamp: 3;
+        -webkit-box-orient: vertical;
+    }
+
+    td {
+        padding-top: 8px;
+        padding-bottom: 8px;
+    }
+}
+
+.el-form {
+    .is-disabled {
+        .el-textarea__inner, .el-input__inner {
+            background-color: #FFF;
+            border-color: 1px solid #DCDFE6;
+            color: #606266;
+            cursor: text;
+        }
+    }
+
+    a .el-button--primary.is-disabled {
+        background-color: #409EFF;
+        border-color: #409EFF;
+        cursor: pointer;
+    }
+}
+
+.law-edit {
+    min-width: 800px;
+}
