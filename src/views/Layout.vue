@@ -16,13 +16,6 @@
           </el-col>
           <el-col style="width: auto;">
             <div class="grid-content bg-purple">
-              <el-link
-                v-if="showScreenMenu"
-                style="margin-right: 20px; font-weight: normal;"
-                icon="el-icon-s-platform"
-                @click="showScreen()"
-                >警力大屏</el-link
-              >
               <el-dropdown style="cursor: pointer;" @command="handleCommand">
                 <span class="el-dropdown-link">
                   <el-avatar v-if="userInfo.avatarUrl" style="vertical-align: middle;" :src="userInfo.avatarUrl"></el-avatar>
@@ -40,15 +33,6 @@
             </div>
           </el-col>
         </el-row>
-        <!-- <div class="tags-view">
-          <el-tag
-            class="tags-view-item"
-            v-for="tag in tags"
-            :key="tag.name"
-            :closable="tag.closable"
-            :type="tag.type"
-          >{{tag.name}}</el-tag>
-        </div> -->
       </el-header>
       <el-main class="page-component__scroll">
         <section class="el-scrollbar__wrap">
@@ -140,19 +124,11 @@ export default {
     menuList() {
       return this.$store.state.permission.menu;
     },
-    showScreenMenu() {
-      const hasScreen = this._.find(this.menuList, ['code', 'policeForceScreen']);
-
-      return !!hasScreen;
-    },
     userInfo() {
       return this.$store.state.user.userInfo;
     },
   },
   methods: {
-    showScreen() {
-      window.open(window.location.href.split('/#')[0] + '/#/policeForceScreen');
-    },
     handleSwitch() {
       this.isCollapse = !this.isCollapse;
     },
