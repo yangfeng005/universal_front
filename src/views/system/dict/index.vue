@@ -26,7 +26,7 @@
         <template slot-scope="scope">
           <el-popconfirm
             :title="`确定${scope.row.status == 1 ? '禁用' : '启用'}吗？`"
-            @onConfirm="changeSwitch({ ...scope.row, status: scope.row.status == 1 ? 2 : 1 }, scope.$index)"
+            @confirm="changeSwitch({ ...scope.row, status: scope.row.status == 1 ? 2 : 1 }, scope.$index)"
           >
             <el-switch slot="reference" :value="scope.row.status" :active-value="1" :inactive-value="2"></el-switch>
           </el-popconfirm>
@@ -39,7 +39,7 @@
           <el-button @click="updateOne(scope.row)" style="margin-right: 10px;" type="primary" size="mini">{{
             $route.meta.manage ? '编辑' : '详情'
           }}</el-button>
-          <el-popconfirm v-if="$route.meta.manage" title="确定删除吗？" @onConfirm="removeOne(scope.row.id)">
+          <el-popconfirm v-if="$route.meta.manage" title="确定删除吗？" @confirm="removeOne(scope.row.id)">
             <el-button slot="reference" type="danger" size="mini">删除</el-button>
           </el-popconfirm>
         </template>

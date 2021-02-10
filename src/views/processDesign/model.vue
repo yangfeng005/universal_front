@@ -24,13 +24,13 @@
       <el-table-column fixed="right" label="操作" v-if="$route.meta.manage" align="center" width="340">
         <template slot-scope="scope">
           <el-button @click="updateOne(scope.row)" style="margin-right: 10px;" type="primary" size="mini">编辑</el-button>
-          <el-popconfirm title="确定发布吗？" style="margin-right: 10px;" @onConfirm="handleBtn(scope.row.id, 3)">
+          <el-popconfirm title="确定发布吗？" style="margin-right: 10px;" @confirm="handleBtn(scope.row.id, 3)">
             <el-button slot="reference" type="info" size="mini">发布</el-button>
           </el-popconfirm>
-          <el-popconfirm title="确定撤销吗？" style="margin-right: 10px;" @onConfirm="handleBtn(scope.row.id, 1)">
+          <el-popconfirm title="确定撤销吗？" style="margin-right: 10px;" @confirm="handleBtn(scope.row.id, 1)">
             <el-button slot="reference" type="warning" size="mini">撤销</el-button>
           </el-popconfirm>
-          <el-popconfirm title="确定删除吗？" @onConfirm="handleBtn(scope.row.id, 2)">
+          <el-popconfirm title="确定删除吗？" @confirm="handleBtn(scope.row.id, 2)">
             <el-button slot="reference" type="danger" size="mini">删除</el-button>
           </el-popconfirm>
         </template>

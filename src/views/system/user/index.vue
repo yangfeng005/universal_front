@@ -61,7 +61,7 @@
           <el-popconfirm
             v-if="$route.meta.manage"
             :title="`确定${scope.row.status == 1 ? '禁用' : '启用'}吗？`"
-            @onConfirm="changeSwitch(scope.row.id, scope.row.status == 1 ? 2 : 1, scope.$index)"
+            @confirm="changeSwitch(scope.row.id, scope.row.status == 1 ? 2 : 1, scope.$index)"
           >
             <el-button slot="reference" type="danger" size="mini">{{ scope.row.status == 1 ? '禁用' : '启用' }}</el-button>
           </el-popconfirm>

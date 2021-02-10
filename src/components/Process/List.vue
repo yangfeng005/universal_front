@@ -19,7 +19,7 @@
           <el-button v-if="form.processDefinitionKey == scope.row.key" style="cursor: default;" type="success" slot="reference" size="mini"
             >当前流程</el-button
           >
-          <el-popconfirm v-else title="确定选择此流程吗？" @onConfirm="handleSelect(scope.row)">
+          <el-popconfirm v-else title="确定选择此流程吗？" @confirm="handleSelect(scope.row)">
             <el-button slot="reference" type="primary" size="mini">选择流程</el-button>
           </el-popconfirm>
         </template>

@@ -24,7 +24,7 @@
       <el-table-column prop="rank" label="排序" width="80"></el-table-column>
       <el-table-column prop="status" v-if="$route.meta.manage" label="是否启用" width="82">
         <template slot-scope="scope">
-          <el-popconfirm :title="`确定${scope.row.status == 1 ? '禁用' : '启用'}吗？`" @onConfirm="changeSwitch(scope.row)">
+          <el-popconfirm :title="`确定${scope.row.status == 1 ? '禁用' : '启用'}吗？`" @confirm="changeSwitch(scope.row)">
             <el-switch slot="reference" :value="`${scope.row.status}`" active-value="1" inactive-value="2"></el-switch>
           </el-popconfirm>
         </template>
@@ -35,7 +35,7 @@
           <el-button v-if="$route.meta.manage" style="margin-right: 10px;" @click="addOne(scope.row)" type="info" size="mini"
             >添加子级</el-button
           >
-          <el-popconfirm v-if="$route.meta.manage" title="确定删除吗？" @onConfirm="removeOne(scope.row.id)">
+          <el-popconfirm v-if="$route.meta.manage" title="确定删除吗？" @confirm="removeOne(scope.row.id)">
             <el-button slot="reference" type="danger" size="mini">删除</el-button>
           </el-popconfirm>
         </template>
