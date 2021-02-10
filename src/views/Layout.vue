@@ -203,7 +203,7 @@ export default {
         updatePwd(this.form1)
           .then(() => {
             this.$message({
-              message: '重置成功',
+              message: '操作成功',
               type: 'success',
             });
 
