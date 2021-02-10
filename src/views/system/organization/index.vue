@@ -17,7 +17,6 @@
     <el-table stripe v-loading="loading" :data="tableData" row-key="id" default-expand-all border style="width: 100%; margin-bottom: 20px;">
       <el-table-column prop="name" label="机构名称" min-width="200"></el-table-column>
       <el-table-column prop="code" label="机构编码" width="180"></el-table-column>
-      <el-table-column prop="level" label="级别" width="100"></el-table-column>
       <el-table-column prop="phone" label="办公电话" width="180"></el-table-column>
       <!--      <el-table-column prop="email" label="电子邮件" width="200"></el-table-column>-->
       <!--      <el-table-column prop="zipCode" label="邮政编码" width="150"></el-table-column>-->
@@ -30,7 +29,6 @@
           </el-popconfirm>
         </template>
       </el-table-column>
-      <el-table-column prop="description" label="备注" width="200"></el-table-column>
       <el-table-column fixed="right" label="操作" align="center" :width="!$route.meta.manage ? '200' : '260'">
         <template slot-scope="scope">
           <el-button @click="updateOne(scope.row)" type="primary" size="mini">{{ $route.meta.manage ? '编辑' : '详情' }}</el-button>
@@ -73,9 +71,6 @@
         <el-form-item label="父级机构名称" v-if="form.parentName" prop="parentName">
           <el-input disabled v-model="form.parentName" maxlength="20"></el-input>
         </el-form-item>
-        <el-form-item label="级别" prop="level">
-          <el-input v-model="form.level" placeholder="请输入级别" maxlength="20"></el-input>
-        </el-form-item>
         <el-form-item label="办公电话" prop="phone">
           <el-input v-model="form.phone" placeholder="请输入电话" maxlength="11"></el-input>
         </el-form-item>
@@ -94,9 +89,6 @@
         <el-form-item label="排序" prop="rank">
           <el-input-number v-model="form.rank" :min="1" controls-position="right" placeholder="请排序"></el-input-number>
           <small>排序规则为：从小到大</small>
-        </el-form-item>
-        <el-form-item label="备注">
-          <el-input v-model="form.description" maxlength="100" type="textarea" rows="5" placeholder="请输入备注"></el-input>
         </el-form-item>
       </el-form>
       <div slot="footer">
@@ -121,7 +113,6 @@ const defaultProps = {
   zipCode: '',
   phone: '',
   address: '',
-  description: '',
   status: '1',
   parentName: '',
 };
@@ -148,10 +139,6 @@ export default {
           { required: true, message: '请输入机构编码', trigger: 'blur' },
           { max: 30, min: 3, message: '长度必须在3至30个字符之间' },
         ],
-        level: [{ required: true, message: '请输入级别', trigger: 'blur' }],
-        // zipCode: [
-        //   { required: true, message: "请输入邮政编码", trigger: "blur" }
-        // ],
         address: [{ required: true, message: '请输入机构地址', trigger: 'blur' }],
         // email: [
         //   { type: "email", message: "请输入正确的邮件地址", trigger: "blur" }

@@ -41,13 +41,13 @@ export const asyncRoutes = [
         name: 'agencyManage',
         uri: '/systemManage/agencyManage',
         component: () => import('@/views/system/organization/index'),
-        meta: { title: '组织管理', manage: true },
+        meta: { title: '机构管理', manage: true },
       },
       {
         path: 'userManage',
         name: 'userManage',
         uri: '/systemManage/userManage',
-        component: () => import('@/views/system/police/index'),
+        component: () => import('@/views/system/user/index'),
         meta: { title: '用户管理', manage: true },
       },
       {
@@ -55,7 +55,7 @@ export const asyncRoutes = [
         name: 'roleManage',
         uri: '/systemManage/roleManage',
         component: () => import('@/views/system/role/index'),
-        meta: { title: '角色权限管理', manage: true },
+        meta: { title: '角色权限', manage: true },
       },
       {
         path: 'sysLog',

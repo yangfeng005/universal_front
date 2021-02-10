@@ -45,18 +45,12 @@
         </template>
       </el-table-column>
       <el-table-column prop="trueName" label="姓名" min-width="160"></el-table-column>
-      <el-table-column prop="policeNumber" label="警员编号" min-width="160"></el-table-column>
-      <el-table-column prop="type" label="用户类型" min-width="100">
-        <template slot-scope="scope">{{ scope.row.type == 1 ? '民警' : scope.row.type == 2 ? '工勤' : '辅警' }}</template>
-      </el-table-column>
       <el-table-column prop="agencyName" label="机构名称" min-width="200"></el-table-column>
       <!--      <el-table-column prop="nickName" label="昵称" min-width="180"></el-table-column>-->
       <el-table-column prop="gender" label="性别" min-width="100">
         <template slot-scope="scope">{{ scope.row.gender == 1 ? '男' : scope.row.gender == 2 ? '女' : '' }}</template>
       </el-table-column>
       <el-table-column prop="birthday" label="出生年月" min-width="120"></el-table-column>
-      <!--      <el-table-column prop="createTime" label="创建时间" min-width="200"></el-table-column>-->
-      <el-table-column prop="description" label="备注" min-width="200"></el-table-column>
       <el-table-column fixed="right" label="操作" align="center" :width="!$route.meta.manage ? '200' : '360'">
         <template slot-scope="scope">
           <el-button @click="updateOne(scope.row)" type="primary" size="mini">{{ $route.meta.manage ? '编辑' : '详情' }}</el-button>
@@ -94,14 +88,8 @@
         <el-form-item label="头像" prop="avatarUrl">
           <upload-img :avatarUrl="form.avatarUrl" @changeUrl="(url) => (form.avatarUrl = url)" />
         </el-form-item>
-        <el-form-item label="电子签名" prop="elecSign">
-          <upload-img :avatarUrl="form.elecSign" @changeUrl="(url) => (form.elecSign = url)" />
-        </el-form-item>
         <el-form-item label="用户名" prop="userName">
           <el-input v-model="form.userName" placeholder="请输入用户名" maxlength="50"></el-input>
-        </el-form-item>
-        <el-form-item label="警员编号" prop="policeNumber">
-          <el-input v-model="form.policeNumber" placeholder="请输入警员编号" maxlength="50"></el-input>
         </el-form-item>
         <el-form-item label="姓名" prop="trueName">
           <el-input v-model="form.trueName" placeholder="请输入姓名" maxlength="50"></el-input>
@@ -138,33 +126,8 @@
             placeholder="请选择"
           ></el-date-picker>
         </el-form-item>
-        <el-form-item label="参加工作时间" prop="joinWorkTime">
-          <el-date-picker :picker-options="pickerOptions" v-model="form.joinWorkTime" type="date" placeholder="请选择"></el-date-picker>
-        </el-form-item>
-        <el-form-item label="工作年限" prop="workYears">
-          <el-input-number :step="0.1" step-strictly :min="0" v-model="form.workYears"></el-input-number>
-        </el-form-item>
-        <el-form-item label="用户类型" prop="type">
-          <el-radio-group v-model="form.type">
-            <el-radio :label="1">民警</el-radio>
-            <el-radio :label="2">工勤</el-radio>
-            <el-radio :label="3">辅警</el-radio>
-          </el-radio-group>
-        </el-form-item>
-        <!--<el-form-item label="年龄" prop="age">
-          <el-input-number
-            v-model="form.age"
-            :min="0"
-            :step-strictly="true"
-            controls-position="right"
-            placeholder="请输入年龄"
-          ></el-input-number>
-        </el-form-item>-->
         <el-form-item label="是否启用">
           <el-switch v-model="form.status" :active-value="1" :inactive-value="2"></el-switch>
-        </el-form-item>
-        <el-form-item label="备注">
-          <el-input v-model="form.description" maxlength="100" type="textarea" rows="5" placeholder="请输入备注"></el-input>
         </el-form-item>
       </el-form>
       <div slot="footer">
@@ -222,17 +185,12 @@ const defaultProps = {
   userName: '',
   trueName: '',
   gender: null,
-  type: null,
   age: null,
   email: '',
   mobile: '',
   avatarUrl: '',
   status: 1,
-  policeNumber: '',
   birthday: '',
-  joinWorkTime: '',
-  workYears: null,
-  elecSign: '',
 };
 
 export default {
@@ -274,8 +232,7 @@ export default {
       total: 0,
       formRules: {
         agencyCode: [{ required: true, message: '请选择机构', trigger: 'blur' }],
-        userName: [{ required: true, message: '请输入警号', trigger: 'blur' }],
-        trueName: [{ required: true, message: '请输入姓名', trigger: 'blur' }],
+        userName: [{ required: true, message: '请输入用户名', trigger: 'blur' }],
         email: [{ type: 'email', message: '请输入正确的邮件地址', trigger: 'blur' }],
         mobile: [
           { required: true, message: '请输入手机号', trigger: 'blur' },
