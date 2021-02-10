@@ -28,11 +28,11 @@
       <el-button @click="handleSelect(2)" size="mini">批量禁用账号</el-button>
     </el-button-group>
     <el-table
-      stripe
       v-loading="loading"
       ref="multipleTable"
       :data="tableData"
-      style="width: 100%; margin-bottom: 20px;"
+      :max-height="tableH"
+      :height="tableH"
       @selection-change="handleSelectionChange"
       border
     >
@@ -79,6 +79,7 @@
     ></el-pagination>
     <el-dialog
       top="5vh"
+      width="40%"
       :close-on-click-modal="false"
       :title="!$route.meta.manage ? '详情' : form.id ? '编辑' : '添加'"
       :visible.sync="dialogVisible"
@@ -149,7 +150,7 @@
         <el-button :loading="saving" type="primary" @click="handlePwd">确 定</el-button>
       </div>
     </el-dialog>
-    <el-dialog :close-on-click-modal="false" top="5vh" title="角色设置" :visible.sync="dialog2Visible">
+    <el-dialog :close-on-click-modal="false" top="9vh" title="角色设置" :visible.sync="dialog2Visible">
       <div style="text-align: center;">
         用户名: <el-tag size="small" type="info" style="margin-right: 20px; min-width: 120px;">{{ form.userName }}</el-tag> 姓名:
         <el-tag size="small" type="info" style="min-width: 120px;">{{ form.trueName }}</el-tag>
@@ -179,6 +180,9 @@ import { formatCascader } from '@/utils/utils';
 
 import UploadImg from '@/components/Upload';
 
+import { mapState } from 'vuex';
+import { getStyle } from '@/utils/common';
+
 const defaultProps = {
   id: null,
   agencyCode: '',
@@ -194,7 +198,7 @@ const defaultProps = {
 };
 
 export default {
-  name: 'Police',
+  name: 'User',
   data(props) {
     var validatePass = (rule, value, callback) => {
       if (this.form1.checkPass) {
@@ -266,6 +270,18 @@ export default {
   watch: {
     'form.joinWorkTime': function (val) {
       this.form.workYears = val ? this.$moment().diff(this.$moment(val), 'years') : null;
+    },
+  },
+  computed: {
+    ...mapState('layout', ['tableHeight']),
+
+    tableH() {
+      if (this.tableHeight) {
+        let html = getStyle(document.documentElement);
+        let htmlFont = Number(html.fontSize.replace('px', ''));
+        return this.tableHeight - 4.6 * htmlFont;
+      }
+      return null;
     },
   },
   methods: {

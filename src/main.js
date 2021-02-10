@@ -17,7 +17,7 @@ Vue.prototype.PUBLIC_PATH = process.env.VUE_APP_PUBLIC_PATH;
 Vue.prototype.BASE_URL = process.env.VUE_APP_BASE_URL + process.env.VUE_APP_BASE_API;
 Vue.prototype.getFile = (id) => `${Vue.prototype.BASE_URL}/file/download?fileId=${id}`;
 
-Vue.use(ElementUI);
+Vue.use(ElementUI, { size: 'mini' });
 
 Vue.config.productionTip = false;
 

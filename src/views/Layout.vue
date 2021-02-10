@@ -34,13 +34,12 @@
           </el-col>
         </el-row>
       </el-header>
-      <el-main class="page-component__scroll">
-        <section class="el-scrollbar__wrap">
+      <el-main>
+        <section class="app-main" ref="contentContainer">
           <transition name="fade-transform" mode="out-in">
             <router-view :key="key" />
           </transition>
         </section>
-        <el-backtop target=".page-component__scroll .el-scrollbar__wrap"></el-backtop>
       </el-main>
     </el-container>
     <el-dialog :close-on-click-modal="false" title="修改密码" :visible.sync="dialog1Visible" :before-close="handleCancel">
@@ -64,6 +63,8 @@
 </template>
 
 <script>
+import { mapMutations } from 'vuex';
+import { getStyle } from '@/utils/common';
 import Sidebar from '@/components/SideBar.vue';
 
 import { updatePwd } from '@/api/user';
@@ -110,6 +111,33 @@ export default {
       },
     };
   },
+  mounted() {
+    let containerStyle = getStyle(this.$refs.contentContainer);
+    let contentContainerP = containerStyle.paddingTop;
+    let html = getStyle(document.documentElement);
+    let htmlFont = Number(html.fontSize.replace('px', ''));
+    let contentContainerH = this.$refs.contentContainer.offsetHeight;
+    let headerH = document.querySelector('.el-header').offsetHeight;
+
+    //计算padding值
+    if (contentContainerP.match('rem')) {
+      contentContainerP = Number(contentContainerP.replace('rem', '')) * htmlFont; //IE 返回rem
+    } else {
+      contentContainerP = Number(contentContainerP.replace('px', '')); //其他返回px
+    }
+    this.setTableHeight(contentContainerH - contentContainerP * 2 - 58);
+
+    //监听窗口的高度变化，改变table的高度
+    let _self = this;
+    window.addEventListener(
+      'resize',
+      function () {
+        let windowH = document.body.offsetHeight; //不使用$refs.contentContainer.offsetHeight，因为窗口退出最大化时，offsetHeight不变
+        _self.setTableHeight(windowH - headerH - contentContainerP * 2 - 58); //header padding
+      },
+      false
+    );
+  },
   computed: {
     switchClass() {
       if (this.isCollapse) return 'el-icon-s-unfold';
@@ -129,6 +157,7 @@ export default {
     },
   },
   methods: {
+    ...mapMutations('layout', ['setTableHeight']),
     handleSwitch() {
       this.isCollapse = !this.isCollapse;
     },
@@ -243,5 +272,15 @@ export default {
 #app > .el-container {
   height: 100vh;
   overflow: hidden;
+}
+
+.app-main {
+  min-height: calc(100vh - 90px);
+  width: 100%;
+  position: relative;
+  overflow: hidden;
+}
+.el-main {
+  padding-bottom: 5px;
 }
 </style>

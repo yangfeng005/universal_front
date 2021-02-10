@@ -11,16 +11,16 @@
         <el-button type="primary" v-if="$route.meta.manage" @click="addOne">添加</el-button>
       </el-form-item>
     </el-form>
-    <el-table stripe v-loading="loading" :data="tableData" style="width: 100%; margin-bottom: 20px;" border>
+    <el-table stripe v-loading="loading" :data="tableData" :max-height="tableH" :height="tableH" border>
       <el-table-column prop="name" label="角色名称" min-width="160"></el-table-column>
       <el-table-column prop="agencyName" label="机构名称" min-width="200"></el-table-column>
       <el-table-column prop="code" label="角色编码" width="200"></el-table-column>
       <el-table-column prop="agencyCode" label="机构编码" width="200"></el-table-column>
-      <el-table-column prop="dataScope" label="数据权限" width="100">
+      <!--<el-table-column prop="dataScope" label="数据权限" width="100">
         <template slot-scope="scope">
           {{ scope.row.dataScope == 1 ? '本人' : scope.row.dataScope == 2 ? '本部门' : scope.row.dataScope == 3 ? '本机构' : '' }}
         </template>
-      </el-table-column>
+      </el-table-column>-->
       <el-table-column prop="status" v-if="$route.meta.manage" label="是否启用" width="100">
         <template slot-scope="scope">
           <el-popconfirm
@@ -32,7 +32,6 @@
         </template>
       </el-table-column>
       <el-table-column prop="createTime" label="创建时间" width="200"></el-table-column>
-      <el-table-column prop="description" label="备注" min-width="200"></el-table-column>
       <el-table-column fixed="right" label="操作" align="center" :width="!$route.meta.manage ? '200' : '260'">
         <template slot-scope="scope">
           <el-button @click="updateOne(scope.row)" type="primary" size="mini">{{ $route.meta.manage ? '编辑' : '详情' }}</el-button>
@@ -60,6 +59,8 @@
       :total="total"
     ></el-pagination>
     <el-dialog
+      top="9vh"
+      width="40%"
       :close-on-click-modal="false"
       :title="!$route.meta.manage ? '详情' : form.id ? '编辑' : '添加'"
       :visible.sync="dialogVisible"
@@ -83,22 +84,19 @@
             style="width: 100%;"
           ></el-cascader>
         </el-form-item>
-        <el-form-item label="数据权限" prop="dataScope">
+        <!--  <el-form-item label="数据权限" prop="dataScope">
           <el-radio-group v-model="form.dataScope">
             <el-radio :label="1">本人</el-radio>
             <el-radio :label="2">本部门</el-radio>
             <el-radio :label="3">本机构</el-radio>
           </el-radio-group>
-        </el-form-item>
+        </el-form-item>-->
         <el-form-item label="是否启用">
           <el-switch v-model="form.status" :active-value="1" :inactive-value="2"></el-switch>
         </el-form-item>
         <el-form-item label="排序" prop="rank">
           <el-input-number v-model="form.rank" :min="1" controls-position="right" placeholder="请排序"></el-input-number>
           <small>排序规则为：从小到大</small>
-        </el-form-item>
-        <el-form-item label="备注">
-          <el-input v-model="form.description" maxlength="100" type="textarea" rows="5" placeholder="请输入备注"></el-input>
         </el-form-item>
       </el-form>
       <div slot="footer">
@@ -133,6 +131,8 @@ import { getList, removeOne, saveOrUpd, getRolePrivilege, savePrivilege } from '
 import { getList as getAgency } from '@/api/agency';
 import { getResourceTreeNode } from '@/api/resource';
 import { formatCascader } from '@/utils/utils';
+import { mapState } from 'vuex';
+import { getStyle } from '@/utils/common';
 
 const defaultProps = {
   id: null,
@@ -140,7 +140,6 @@ const defaultProps = {
   code: '',
   rank: null,
   status: 1,
-  dataScope: 1,
   agencyCode: [],
   description: '',
 };
@@ -164,11 +163,22 @@ export default {
       total: 0,
       formRules: {
         name: [{ required: true, message: '请输入角色名称', trigger: 'blur' }],
-        dataScope: [{ required: true, message: '请选择数据权限', trigger: 'blur' }],
         code: [{ required: true, message: '请输入角色编码', trigger: 'blur' }],
         agencyCode: [{ required: true, message: '请选择组织机构', trigger: 'blur' }],
       },
     };
+  },
+  computed: {
+    ...mapState('layout', ['tableHeight']),
+
+    tableH() {
+      if (this.tableHeight) {
+        let html = getStyle(document.documentElement);
+        let htmlFont = Number(html.fontSize.replace('px', ''));
+        return this.tableHeight - 1.5 * htmlFont;
+      }
+      return null;
+    },
   },
   methods: {
     addOne() {

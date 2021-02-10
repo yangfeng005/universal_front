@@ -15,12 +15,10 @@
       </el-form-item>
     </el-form>
     <el-table stripe v-loading="loading" :data="tableData" row-key="id" default-expand-all border style="width: 100%; margin-bottom: 20px;">
-      <el-table-column prop="name" label="机构名称" min-width="200"></el-table-column>
-      <el-table-column prop="code" label="机构编码" width="180"></el-table-column>
-      <el-table-column prop="phone" label="办公电话" width="180"></el-table-column>
-      <!--      <el-table-column prop="email" label="电子邮件" width="200"></el-table-column>-->
-      <!--      <el-table-column prop="zipCode" label="邮政编码" width="150"></el-table-column>-->
-      <el-table-column prop="address" label="机构地址" min-width="150"></el-table-column>
+      <el-table-column prop="name" label="机构名称" width="200"></el-table-column>
+      <el-table-column prop="code" label="机构编码" width="150"></el-table-column>
+      <el-table-column prop="phone" label="办公电话" width="150"></el-table-column>
+      <el-table-column prop="address" label="机构地址" width="250"></el-table-column>
       <el-table-column prop="rank" label="排序" width="80"></el-table-column>
       <el-table-column prop="status" v-if="$route.meta.manage" label="是否启用" width="82">
         <template slot-scope="scope">
@@ -29,7 +27,7 @@
           </el-popconfirm>
         </template>
       </el-table-column>
-      <el-table-column fixed="right" label="操作" align="center" :width="!$route.meta.manage ? '200' : '260'">
+      <el-table-column label="操作" align="center" :width="!$route.meta.manage ? '200' : '260'">
         <template slot-scope="scope">
           <el-button @click="updateOne(scope.row)" type="primary" size="mini">{{ $route.meta.manage ? '编辑' : '详情' }}</el-button>
           <el-button v-if="$route.meta.manage" style="margin-right: 10px;" @click="addOne(scope.row)" type="info" size="mini"
@@ -41,17 +39,11 @@
         </template>
       </el-table-column>
     </el-table>
-    <!-- <el-pagination
-      @size-change="handleSizeChange"
-      @current-change="handleCurrentChange"
-      :current-page.sync="pageParams.pageNo"
-      background
-      layout="total, prev, pager, next, jumper, sizes"
-      :page-size="pageParams.pageSize"
-      :total="total"
-    ></el-pagination> -->
     <el-dialog
       top="5vh"
+      width="40%"
+      :max-height="tableH"
+      :height="tableH"
       :close-on-click-modal="false"
       :title="`${!form.id && form.parentCode ? '添加子级' : form.id ? '编辑' : '添加'}`"
       :visible.sync="dialogVisible"
@@ -74,12 +66,6 @@
         <el-form-item label="办公电话" prop="phone">
           <el-input v-model="form.phone" placeholder="请输入电话" maxlength="11"></el-input>
         </el-form-item>
-        <!--        <el-form-item label="电子邮件" prop="email">-->
-        <!--          <el-input v-model="form.email" placeholder="请输入邮件地址" maxlength="60"></el-input>-->
-        <!--        </el-form-item>-->
-        <!--        <el-form-item label="邮政编码" prop="zipCode">-->
-        <!--          <el-input v-model="form.zipCode" placeholder="请输入邮政编码" maxlength="10"></el-input>-->
-        <!--        </el-form-item>-->
         <el-form-item label="机构地址" prop="zipCode">
           <el-input v-model="form.address" placeholder="请输入机构地址" maxlength="100"></el-input>
         </el-form-item>
@@ -99,6 +85,8 @@
   </div>
 </template>
 <script>
+import { mapState } from 'vuex';
+import { getStyle } from '@/utils/common';
 import { getList, removeOne, saveOrUpd } from '@/api/agency';
 import { validPhoneOrTel } from '@/utils/valid';
 
@@ -152,6 +140,18 @@ export default {
         ],
       },
     };
+  },
+  computed: {
+    ...mapState('layout', ['tableHeight']),
+
+    tableH() {
+      if (this.tableHeight) {
+        let html = getStyle(document.documentElement);
+        let htmlFont = Number(html.fontSize.replace('px', ''));
+        return this.tableHeight - 1.5 * htmlFont;
+      }
+      return null;
+    },
   },
   methods: {
     addOne(row) {

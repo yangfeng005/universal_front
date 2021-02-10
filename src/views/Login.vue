@@ -47,7 +47,6 @@ export default {
             password: Encrypt(this.loginForm.password),
           })
           .then(() => {
-            debugger
             this.$router.push({ path: this.redirect || '/' });
             this.loading = false;
           })

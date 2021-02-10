@@ -11,13 +11,13 @@
         <el-button type="primary" @click="handleSearch">查询</el-button>
       </el-form-item>
     </el-form>
-    <el-table stripe v-loading="loading" :data="tableData" style="width: 100%; margin-bottom: 20px;" border>
-      <el-table-column prop="action" label="操作名称" min-width="220"></el-table-column>
-      <el-table-column prop="operateObject" label="操作对象" min-width="300"></el-table-column>
-      <el-table-column prop="operateContent" label="操作内容" min-width="300"></el-table-column>
-      <el-table-column prop="ip" label="IP" width="200"></el-table-column>
-      <el-table-column prop="operateTime" label="操作时间" width="200"></el-table-column>
-      <el-table-column prop="user" label="操作用户" fixed="right" width="200"></el-table-column>
+    <el-table stripe v-loading="loading" :data="tableData" :max-height="tableH" :height="tableH" border>
+      <el-table-column prop="action" label="操作名称" :show-overflow-tooltip="true" width="220"></el-table-column>
+      <el-table-column prop="operateObject" label="操作对象" :show-overflow-tooltip="true" width="310"></el-table-column>
+      <el-table-column prop="operateContent" label="操作内容" :show-overflow-tooltip="true" width="300"></el-table-column>
+      <el-table-column prop="ip" label="IP" width="200" :show-overflow-tooltip="true"></el-table-column>
+      <el-table-column prop="operateTime" label="操作时间" width="150" :show-overflow-tooltip="true"></el-table-column>
+      <el-table-column prop="user" label="操作用户" width="150" :show-overflow-tooltip="true"></el-table-column>
     </el-table>
     <el-pagination
       @size-change="handleSizeChange"
@@ -32,6 +32,8 @@
 </template>
 <script>
 import { getList } from '@/api/sysLog';
+import { mapState } from 'vuex';
+import { getStyle } from '@/utils/common';
 
 export default {
   name: 'SystemLog',
@@ -45,6 +47,18 @@ export default {
       tableData: [],
       total: 0,
     };
+  },
+  computed: {
+    ...mapState('layout', ['tableHeight']),
+
+    tableH() {
+      if (this.tableHeight) {
+        let html = getStyle(document.documentElement);
+        let htmlFont = Number(html.fontSize.replace('px', ''));
+        return this.tableHeight - 1.5 * htmlFont;
+      }
+      return null;
+    },
   },
   methods: {
     handleSearch() {
