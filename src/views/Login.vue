@@ -4,7 +4,7 @@
       <h1>
         <span>管理系统</span>
       </h1>
-      <el-form ref="loginForm" :model="loginForm" :rules="loginRules">
+      <el-form ref="loginForm" :model="loginForm" :rules="loginRules" size="medium">
         <el-form-item label="用户名" prop="username">
           <el-input placeholder="请输入用户名" v-model="loginForm.username"></el-input>
         </el-form-item>
@@ -12,7 +12,7 @@
           <el-input placeholder="请输入密码" v-model="loginForm.password" show-password maxlength="32"></el-input>
         </el-form-item>
       </el-form>
-      <el-button type="primary" :loading="loading" @click="handleLogin()">登录</el-button>
+      <el-button size="medium" type="primary" :loading="loading" @click="handleLogin()">登录</el-button>
     </el-card>
   </div>
 </template>
@@ -70,7 +70,7 @@ export default {
   background-position: center;
 
   .el-card {
-    width: 400px;
+    width: 350px;
     position: absolute;
     top: 50%;
     left: 50%;

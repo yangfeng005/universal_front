@@ -110,15 +110,18 @@
       :visible.sync="dialog1Visible"
       :before-close="handleCancel"
     >
-      <el-tree
-        ref="tree"
-        :data="resource"
-        show-checkbox
-        node-key="id"
-        highlight-current
-        :default-expanded-keys="[0]"
-        :props="{ label: 'name' }"
-      ></el-tree>
+      <ul class="infinite-list" style="height: 350px; overflow: auto;">
+        <el-tree
+          ref="tree"
+          :data="resource"
+          show-checkbox
+          node-key="id"
+          highlight-current
+          default-expand-all
+          :default-expanded-keys="[0]"
+          :props="{ label: 'name' }"
+        ></el-tree>
+      </ul>
       <div slot="footer">
         <el-button @click="handleCancel">取 消</el-button>
         <el-button :loading="saving" type="primary" @click="savePrivilege">确 定</el-button>
