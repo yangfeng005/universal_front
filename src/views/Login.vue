@@ -70,7 +70,7 @@ export default {
   background-position: center;
 
   .el-card {
-    width: 350px;
+    width: 400px;
     position: absolute;
     top: 50%;
     left: 50%;

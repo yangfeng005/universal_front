@@ -1,17 +1,42 @@
 import request from '@/utils/request';
 
-export function signIn(data) {
+export function updStatus(data) {
   return request({
-    url: '/pc/login/doLogin',
+    url: '/user/updateStatus',
     method: 'post',
     data,
   });
 }
 
-export function signOut() {
+export function getList(data) {
   return request({
-    url: '/pc/login/logout',
+    url: '/user/list',
     method: 'post',
+    data,
+  });
+}
+
+export function saveOrUpd(data) {
+  return request({
+    url: '/user/save',
+    method: 'post',
+    data,
+  });
+}
+
+export function resetPwd(data) {
+  return request({
+    url: '/user/resetPwd',
+    method: 'post',
+    data,
+  });
+}
+
+export function saveUserRole(data) {
+  return request({
+    url: '/user/saveUserRole',
+    method: 'post',
+    data,
   });
 }
 

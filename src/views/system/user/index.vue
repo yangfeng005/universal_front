@@ -50,7 +50,6 @@
       <el-table-column prop="gender" label="性别" min-width="100">
         <template slot-scope="scope">{{ scope.row.gender == 1 ? '男' : scope.row.gender == 2 ? '女' : '' }}</template>
       </el-table-column>
-      <el-table-column prop="birthday" label="出生年月" min-width="120"></el-table-column>
       <el-table-column fixed="right" label="操作" align="center" :width="!$route.meta.manage ? '200' : '360'">
         <template slot-scope="scope">
           <el-button @click="updateOne(scope.row)" type="primary" size="mini">{{ $route.meta.manage ? '编辑' : '详情' }}</el-button>
@@ -118,15 +117,6 @@
             <el-radio :label="2">女</el-radio>
           </el-radio-group>
         </el-form-item>
-        <el-form-item label="出生年月" prop="birthday">
-          <el-date-picker
-            clearable
-            :picker-options="pickerOptions"
-            v-model="form.birthday"
-            type="month"
-            placeholder="请选择"
-          ></el-date-picker>
-        </el-form-item>
         <el-form-item label="是否启用">
           <el-switch v-model="form.status" :active-value="1" :inactive-value="2"></el-switch>
         </el-form-item>
@@ -136,7 +126,7 @@
         <el-button :loading="saving" type="primary" v-if="$route.meta.manage" @click="handleSave">确 定</el-button>
       </div>
     </el-dialog>
-    <el-dialog :close-on-click-modal="false" :title="`重置密码-${form1.userName}`" :visible.sync="dialog1Visible">
+    <el-dialog :close-on-click-modal="false" :title="`重置密码-${form1.userName}`" :visible.sync="dialog1Visible" width="30%">
       <el-form ref="form1" :model="form1" :rules="form1Rules" label-width="110px">
         <el-form-item label="新密码" prop="newPassword">
           <el-input type="password" v-model="form1.newPassword" placeholder="请输入新密码" autocomplete="off" maxlength="32"></el-input>
@@ -170,7 +160,7 @@
   </div>
 </template>
 <script>
-import { getList, updStatus, saveOrUpd, updatePwd, saveUserRole } from '@/api/police';
+import { getList, updStatus, saveOrUpd, resetPwd, saveUserRole } from '@/api/user';
 import { getList as getAgency } from '@/api/agency';
 import { getList as getRole } from '@/api/role';
 import { getByUserName } from '@/api/user';
@@ -194,7 +184,6 @@ const defaultProps = {
   mobile: '',
   avatarUrl: '',
   status: 1,
-  birthday: '',
 };
 
 export default {
@@ -321,7 +310,6 @@ export default {
 
         saveOrUpd({
           ...this.form,
-          birthday: this.form.birthday ? this.$moment(this.form.birthday).format('YYYY-MM') : '',
           joinWorkTime: this.form.joinWorkTime ? this.$moment(this.form.joinWorkTime).format('YYYY-MM-DD') : '',
           agencyCode: this._.isArray(this.form.agencyCode) ? this.form.agencyCode[this.form.agencyCode.length - 1] : this.form.agencyCode,
         })
@@ -384,7 +372,7 @@ export default {
 
         this.saving = true;
 
-        updatePwd(this.form1)
+        resetPwd(this.form1)
           .then(() => {
             this.$message({
               message: '重置成功',
